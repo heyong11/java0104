@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--包扫描器-->
+    <context:component-scan base-package="com.peihua"></context:component-scan>
+    <!--数据源-->
+    <context:property-placeholder location="classpath:dbconfig.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--需要一个工厂这是mybatis的核心-->
+    <bean id="sqlsessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--需要一个数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--给定mapper，在核心配置文件中读取-->
+        <property name="mapperLocations" value="classpath:com/peihua/mapper/*.xml"></property>
+        <!--别名-->
+        <property name="typeAliasesPackage" value="com.peihua.pojo"/>
+        <!--读取核心配置文件-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
+        <!--加载插件-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor"/>
+            </array>
+        </property>
+    </bean>
+    <!--接口扫描器
+        <mappers>
+        &lt;!&ndash;        <mapper resource="com\peihua\mapper\UserMapper.xml"/>&ndash;&gt;
+        <package name="com.peihua.mapper"/>
+        </mappers>
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.peihua.mapper"/>
+    </bean>
+
+
+    <!--事务的配置，拿到一个事务管理器-->
+    <bean id="txManger" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--开启aop事务管理注解-->
+    <tx:annotation-driven transaction-manager="txManger"></tx:annotation-driven>
+</beans>

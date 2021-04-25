@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace；书写接口的全路径：目的和接口绑定在一起-->
+<mapper namespace="com.peihua.mapper.UserMapper1">
+    <!--void saveUser (User user);-->
+    <insert id="saveUser" parameterType="com.peihua.pojo.User">
+       INSERT INTO `mybatis`.`user`
+            (
+            `name`,
+            `pwd`
+            )
+            VALUES
+            (
+             #{name},
+            #{pwd}
+            )
+    </insert>
+
+    <!--void deleteById(Integer id);-->
+    <delete id="deleteById" parameterType="integer">
+        delete from user where id=#{id}
+    </delete>
+
+    <!--void upUser(User user);-->
+    <update id="upUser" parameterType="com.peihua.pojo.User">
+		UPDATE `mybatis`.`user`
+		SET
+		`name` = #{name} ,
+		`pwd` = #{pwd}
+		WHERE
+		`id` = #{id}
+	</update>
+
+    <!--User findById(Integer id);-->
+    <select id="findById" parameterType="integer" resultType="com.peihua.pojo.User">
+        select * from user where id = #{id}
+    </select>
+
+    <!--List<User> findAll();-->
+    <select id="findAll" resultType="com.peihua.pojo.User">
+        select * from user
+    </select>
+
+
+</mapper>

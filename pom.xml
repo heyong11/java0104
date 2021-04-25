@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.peihua</groupId>
+    <artifactId>three</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>day06-spring-01</module>
+        <module>day06-spring-02</module>
+        <module>day07-spring -01</module>
+        <module>day07-spring-02</module>
+        <module>day07-spring-03</module>
+        <module>day08-spring-01-AOP</module>
+        <module>day08-spring-02-AOP-annotation</module>
+        <module>day08-spring-02-Aop-annotation-2</module>
+        <module>day08-spring-tx-xml</module>
+        <module>day09-spring-mybatis</module>
+        <module>day08-spring-tx-annotation</module>
+        <module>day10-springmvc</module>
+        <module>day11-springmv</module>
+        <module>day17-spring-nginx</module>
+        <module>day17-spring-nginx2</module>
+        <module>day18-zookeeper</module>
+    </modules>
+
+
+</project>

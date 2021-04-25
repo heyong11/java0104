@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--包扫描器，提前扫描-->
+    <context:component-scan base-package="com.peihua"/>
+    <!--配置数据源： -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mybatis"/>
+        <property name="user" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+
+    <!--ConnectionUtils-->
+    <bean id="connectionUtils" class="com.peihua.utils.ConnectionUtils">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--DBUtils的配置-->
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+        <!--要保证在同一个事务当中， 不需要给数据源：-->
+    </bean>
+
+    <!--事务管理的对象：transactionManager -->
+    <bean id="txManager" class="com.peihua.utils.TransactionManager">
+      <!--  <property name="connectionUtils" ref="connectionUtils"></property>-->
+    </bean>
+
+
+   <!--AccountDaoImpl： -->
+    <bean id="accountDao" class="com.peihua.dao.impl.AccountDaoImpl">
+        <property name="connectionUtils" ref="connectionUtils"></property>
+        <property name="queryRunner" ref="queryRunner"></property>
+    </bean>
+
+
+    <!--accountService的配置-->
+    <bean id="accountService" class="com.peihua.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao"></property>
+        <property name="transactionManager" ref="txManager"></property>
+    </bean>
+
+    <!--使用注解得方式-->
+    <aop:aspectj-autoproxy/>
+
+</beans>
