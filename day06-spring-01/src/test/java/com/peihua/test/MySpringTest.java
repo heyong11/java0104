@@ -18,6 +18,8 @@ public class MySpringTest {
         user.setPwd("123");
 
         userMapper.saveUser(user);
+        userMapper.saveUser(user);
+
     }
     //删除
     @Test
